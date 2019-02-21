@@ -38,12 +38,12 @@ registerBlockType( 'cnb/call-button-block', {
 	],
 	attributes: {
 	    number: {
-      	  attribute: 'href',
-	      selector: '.call__number'
+      	  	attribute: 'href',
+	      	selector: '.call__number'
 	    },
-	    btn_text: {
-	      source: 'text',
-	      selector: '.call__btntext'
+	    btntext: {
+	      	source: 'text',
+	      	selector: '.call__btntext'
 	    }
 	},
 
@@ -66,8 +66,8 @@ registerBlockType( 'cnb/call-button-block', {
 		          	className="number"
 		        />
 		        <PlainText
-		          	onChange={ content => setAttributes({ btn_text: content }) }
-		          	value={ attributes.btn_text }
+		          	onChange={ content => setAttributes({ btntext: content }) }
+		          	value={ attributes.btntext }
 		          	placeholder="Button text"
 		          	className="btn-text"
 		        />
@@ -85,7 +85,8 @@ registerBlockType( 'cnb/call-button-block', {
 	 */
 	save: function( attributes ) {
 		return (
-		    <a className="call__number" href="tel:{ attributes.number }" title="Call Us"><span className="call__btntext">{ attributes.btn_text }</span></a>
+		    <a className="call__number" href="tel:{ attributes.number }" title="Call Us"><span className="call__btntext">{ attributes.btntext }</span></a>
 	    );
 	},
+
 } );
