@@ -10,7 +10,7 @@ import './style.scss';
 import './editor.scss';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
-const { PlainText } = wp.editor;
+const { RichText, PlainText } = wp.editor;
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
 /**
@@ -42,9 +42,10 @@ registerBlockType( 'cnb/call-button-block', {
 	      	selector: '.call__number'
 	    },
 	    btntext: {
-	      	source: 'text',
-	      	selector: '.call__btntext'
-	    }
+      		type: 'array',
+      		source: 'children',
+      		selector: '.call__btn'
+    	},
 	},
 
 	/**
@@ -65,11 +66,13 @@ registerBlockType( 'cnb/call-button-block', {
 		          	placeholder="Your phone number"
 		          	className="number"
 		        />
-		        <PlainText
+		        <RichText
 		          	onChange={ content => setAttributes({ btntext: content }) }
 		          	value={ attributes.btntext }
+		          	multiline="p"
 		          	placeholder="Button text"
-		          	className="btn-text"
+		          	formattingControls={ ['bold', 'italic', 'underline'] }
+		          	isSelected={ attributes.isSelected }
 		        />
 		    </div>
 	    );
@@ -85,7 +88,9 @@ registerBlockType( 'cnb/call-button-block', {
 	 */
 	save: function( attributes ) {
 		return (
-		    <a className="call__number" href="tel:{ attributes.number }" title="Call Us"><span className="call__btntext">{ attributes.btntext }</span></a>
+		    <a className="call__number" href="tel:{ attributes.number }" title="Call Us">
+		    	<span className="call__btn">{ attributes.btntext }</span>
+		    </a>
 	    );
 	},
 
