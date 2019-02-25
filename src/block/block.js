@@ -9,7 +9,7 @@
 import './style.scss';
 import './editor.scss';
 
-const { __ } = wp.i18n; // Import __() from wp.i18n
+const { __, setLocaleData } = wp.i18n; // Import __() from wp.i18n
 const { RichText, PlainText } = wp.editor;
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
@@ -39,12 +39,12 @@ registerBlockType( 'cnb/call-button-block', {
 	attributes: {
 	    number: {
       	  	attribute: 'href',
-	      	selector: '.call__number'
+	      	selector: '.eig_call__number'
 	    },
-	    btntext: {
+	    content: {
       		type: 'array',
       		source: 'children',
-      		selector: '.call__btn'
+      		selector: 'span'
     	},
 	},
 
@@ -56,24 +56,32 @@ registerBlockType( 'cnb/call-button-block', {
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	edit: function( { attributes, className, setAttributes } ) {
+	edit: function( props ) {
+
+		const { attributes: { content, number }, setAttributes, className } = props;
+		const onChangeNumber = ( newNumber ) => {
+			setAttributes( { number: newNumber } );
+		};
+		const onChangeContent = ( newContent ) => {
+			setAttributes( { content: newContent } );
+		};
 		
 		return (
-		    <div className="container">
+		    <div className="eig_call">
 		        <PlainText
-		          	onChange={ content => setAttributes({ number: content }) }
-		          	value={ attributes.number }
+		          	onChange={ onChangeNumber }
+		          	value={ number }
 		          	placeholder="Your phone number"
-		          	className="number"
+		          	className="eig_call__number"
 		        />
-		        <RichText
-		          	onChange={ content => setAttributes({ btntext: content }) }
-		          	value={ attributes.btntext }
-		          	multiline="p"
-		          	placeholder="Button text"
+				<RichText
+					tagName="span"
+					onChange={ onChangeContent }
+					value={ content }
+		          	placeholder="Button Text"
 		          	formattingControls={ ['bold', 'italic', 'underline'] }
-		          	isSelected={ attributes.isSelected }
-		        />
+					className="eig_call__btn"
+				/>
 		    </div>
 	    );
 	},
@@ -86,12 +94,14 @@ registerBlockType( 'cnb/call-button-block', {
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 */
-	save: function( attributes ) {
+	save: function( props ) {
+
 		return (
-		    <a className="call__number" href="tel:{ attributes.number }" title="Call Us">
-		    	<span className="call__btn">{ attributes.btntext }</span>
+		    <a className="eig_call__number" href={ `tel:${ props.attributes.number }` } title="Call Us">
+		    	<RichText.Content tagName="span" value={ props.attributes.content } />
 		    </a>
 	    );
+	    
 	},
 
 } );
