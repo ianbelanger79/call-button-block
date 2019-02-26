@@ -14,7 +14,7 @@ const { RichText, PlainText } = wp.editor;
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
 /**
- * Register: aa Gutenberg Block.
+ * Register: a Gutenberg Block.
  *
  * Registers a new block provided a unique name and an object defining its
  * behavior. Once registered, the block is made editor as an option to any
@@ -74,7 +74,7 @@ registerBlockType( 'cnb/call-button-block', {
 		          	placeholder="Your phone number"
 		          	className="eig_call__number"
 		        />
-				<RichText
+				<RichText 
 					tagName="span"
 					onChange={ onChangeContent }
 					value={ content }
@@ -96,8 +96,13 @@ registerBlockType( 'cnb/call-button-block', {
 	 */
 	save: function( props ) {
 
+		var telnum = props.attributes.number;
+		var regex = /\D/gi;
+		var phonenum = telnum.replace(regex, '');
+		//console.log( phonenum );
+
 		return (
-		    <a className="eig_call__number" href={ `tel:${ props.attributes.number }` } title="Call Us">
+		    <a className="eig_call__number" href={ `tel:${ phonenum }` } title="Call Us">
 		    	<RichText.Content tagName="span" value={ props.attributes.content } />
 		    </a>
 	    );
