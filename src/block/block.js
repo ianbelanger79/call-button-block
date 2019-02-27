@@ -1,8 +1,8 @@
 /**
  * BLOCK: call-button-block
  *
- * Registering a basic block with Gutenberg.
- * Simple block, renders and saves the same content without any interactivity.
+ * Registering a dynamic block with Gutenberg.
+ * Dynamic block, renders and saves a Call Now Button
  */
 
 //  Import CSS.
@@ -29,11 +29,11 @@ const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.b
 registerBlockType( 'cnb/call-button-block', {
 	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
 	title: __( 'Call Now Button' ), // Block title.
+	description: __( 'Prompt visitors to take action with a Call Now Button.' ),
 	icon: 'phone', // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
 	category: 'common', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
 	keywords: [
 		__( 'Call Now Button' ),
-		__( 'CGB Example' ),
 		__( 'call-button-block' ),
 	],
 	attributes: {
@@ -102,9 +102,11 @@ registerBlockType( 'cnb/call-button-block', {
 		//console.log( phonenum );
 
 		return (
-		    <a className="eig_call__number" href={ `tel:${ phonenum }` } title="Call Us">
-		    	<RichText.Content tagName="span" value={ props.attributes.content } />
-		    </a>
+			<div className="eig_call">
+		    	<a className="eig_call__number" href={ `tel:${ phonenum }` } title="Call Us">
+		    		<RichText.Content tagName="span" className="eig_call__btn" value={ props.attributes.content } />
+		    	</a>
+		    </div>
 	    );
 	    
 	},
