@@ -5,13 +5,67 @@
  * Dynamic block, renders and saves a Call Now Button
  */
 
-//  Import CSS.
-import './style.scss';
-import './editor.scss';
+/**
+ * External dependencies
+ */
+import classnames from 'classnames';
+import { omit, pick } from 'lodash';
 
-const { __, setLocaleData } = wp.i18n; // Import __() from wp.i18n
-const { RichText, PlainText } = wp.editor;
-const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+/**
+ * WordPress dependencies
+ */
+//import { G, Path, SVG } from '@wordpress/components';
+import { __, _x } from '@wordpress/i18n';
+import {
+	RichText,
+	getColorClassName,
+} from '@wordpress/editor';
+import { registerBlockType } from '@wordpress/blocks';
+
+/**
+ * Internal dependencies
+ */
+import edit from './edit';
+
+const blockAttributes = {
+	url: {
+		type: 'string',
+		source: 'attribute',
+		selector: 'a',
+		attribute: 'href',
+	},
+	title: {
+		type: 'string',
+		source: 'attribute',
+		selector: 'a',
+		attribute: 'title',
+	},
+	text: {
+		type: 'string',
+		source: 'html',
+		selector: 'a',
+	},
+	backgroundColor: {
+		type: 'string',
+	},
+	textColor: {
+		type: 'string',
+	},
+	customBackgroundColor: {
+		type: 'string',
+	},
+	customTextColor: {
+		type: 'string',
+	},
+};
+
+const colorsMigration = ( attributes ) => {
+	return omit( {
+		...attributes,
+		customTextColor: attributes.textColor && '#' === attributes.textColor[ 0 ] ? attributes.textColor : undefined,
+		customBackgroundColor: attributes.color && '#' === attributes.color[ 0 ] ? attributes.color : undefined,
+	}, [ 'color', 'textColor' ] );
+};
 
 /**
  * Register: a Gutenberg Block.
@@ -27,88 +81,74 @@ const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.b
  *                             registered; otherwise `undefined`.
  */
 registerBlockType( 'cnb/call-button-block', {
-	// Block name. Block names must be string that contains a namespace prefix. Example: my-plugin/my-custom-block.
-	title: __( 'Call Now Button' ), // Block title.
+
+	title: __( 'Call Button' ),
 	description: __( 'Prompt visitors to take action with a Call Now Button.' ),
-	icon: 'phone', // Block icon from Dashicons → https://developer.wordpress.org/resource/dashicons/.
-	category: 'common', // Block category — Group blocks together based on common traits E.g. common, formatting, layout widgets, embed.
+	icon: 'phone',
+	category: 'common',
 	keywords: [
 		__( 'Call Now Button' ),
 		__( 'call-button-block' ),
 	],
-	attributes: {
-	    number: {
-      	  	attribute: 'href',
-	      	selector: '.eig_call__number'
-	    },
-	    content: {
-      		type: 'array',
-      		source: 'children',
-      		selector: 'span'
-    	},
+	attributes: blockAttributes,
+	supports: {
+		align: true,
+		alignWide: false,
 	},
+	styles: [
+		{ name: 'default', label: _x( 'Default', 'block style' ), isDefault: true },
+		{ name: 'outline', label: __( 'Outline' ) },
+		{ name: 'squared', label: _x( 'Squared', 'block style' ) },
+	],
 
-	/**
-	 * The edit function describes the structure of your block in the context of the editor.
-	 * This represents what the editor will render when the block is used.
-	 *
-	 * The "edit" property must be a valid function.
-	 *
-	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
-	 */
-	edit: function( props ) {
+	edit,
 
-		const { attributes: { content, number }, setAttributes, className } = props;
-		const onChangeNumber = ( newNumber ) => {
-			setAttributes( { number: newNumber } );
+	save( { attributes } ) {
+		const {
+			url,
+			text,
+			title,
+			backgroundColor,
+			textColor,
+			customBackgroundColor,
+			customTextColor,
+		} = attributes;
+
+		const textClass = getColorClassName( 'color', textColor );
+		const backgroundClass = getColorClassName( 'background-color', backgroundColor );
+
+		const buttonClasses = classnames( 'wp-block-button__link eig_call_button', {
+			'has-text-color': textColor || customTextColor,
+			[ textClass ]: textClass,
+			'has-background': backgroundColor || customBackgroundColor,
+			[ backgroundClass ]: backgroundClass,
+		} );
+
+		const buttonStyle = {
+			backgroundColor: backgroundClass ? undefined : customBackgroundColor,
+			color: textClass ? undefined : customTextColor,
 		};
-		const onChangeContent = ( newContent ) => {
-			setAttributes( { content: newContent } );
-		};
-		
-		return (
-		    <div className="eig_call">
-		        <PlainText
-		          	onChange={ onChangeNumber }
-		          	value={ number }
-		          	placeholder="Your phone number"
-		          	className="eig_call__number"
-		        />
-				<RichText 
-					tagName="span"
-					onChange={ onChangeContent }
-					value={ content }
-		          	placeholder="Button Text"
-		          	formattingControls={ ['bold', 'italic', 'underline'] }
-					className="eig_call__btn"
-				/>
-		    </div>
-	    );
-	},
 
-	/**
-	 * The save function defines the way in which the different attributes should be combined
-	 * into the final markup, which is then serialized by Gutenberg into post_content.
-	 *
-	 * The "save" property must be specified and must be a valid function.
-	 *
-	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
-	 */
-	save: function( props ) {
-
-		var telnum = props.attributes.number;
-		var regex = /\D/gi;
-		var phonenum = telnum.replace(regex, '');
-		//console.log( phonenum );
+		var telnum = attributes.url;
+		if( telnum ) {
+			var regex = /\D/gi;
+			var phonenum = telnum.replace(regex, '');
+		} else {
+			var phonenum = attributes.url;
+		}
 
 		return (
 			<div className="eig_call">
-		    	<a className="eig_call__number" href={ `tel:${ phonenum }` } title="Call Us">
-		    		<RichText.Content tagName="span" className="eig_call__btn" value={ props.attributes.content } />
-		    	</a>
-		    </div>
-	    );
-	    
+				<RichText.Content
+					tagName="a"
+					className={ buttonClasses }
+					href={ 'tel:' + phonenum }
+					title={ title }
+					style={ buttonStyle }
+					value={ text }
+				/>
+			</div>
+		);
 	},
-
-} );
+	
+});
