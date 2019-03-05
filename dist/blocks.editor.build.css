@@ -11,9 +11,6 @@
  * which makes it higher in priority.
  */
 .wp-block-cnb-call-button-block {
-  background: #bada55;
-  border: 0.2rem solid black;
   color: black;
   margin: 0 auto;
-  max-width: 740px;
-  padding: 2rem; }
+  max-width: 740px; }
