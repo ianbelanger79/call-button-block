@@ -4,6 +4,10 @@
  * Registering a dynamic block with Gutenberg.
  * Dynamic block, renders and saves a Call Now Button
  */
+ 
+//  Import CSS.
+import './style.scss';
+import './editor.scss';
 
 /**
  * External dependencies
