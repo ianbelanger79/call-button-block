@@ -18,13 +18,12 @@ import { omit, pick } from 'lodash';
 /**
  * WordPress dependencies
  */
-//import { G, Path, SVG } from '@wordpress/components';
-import { __, _x } from '@wordpress/i18n';
-import {
+const { __, _x } = wp.i18n;
+const {
 	RichText,
 	getColorClassName,
-} from '@wordpress/editor';
-import { registerBlockType } from '@wordpress/blocks';
+} = wp.editor;
+const { registerBlockType } = wp.blocks;
 
 /**
  * Internal dependencies
@@ -34,9 +33,6 @@ import edit from './edit';
 const blockAttributes = {
 	url: {
 		type: 'string',
-		source: 'attribute',
-		selector: 'a',
-		attribute: 'href',
 	},
 	title: {
 		type: 'string',
@@ -72,7 +68,7 @@ const colorsMigration = ( attributes ) => {
 };
 
 /**
- * Register: a Gutenberg Block.
+ * Register: Call Button Block.
  *
  * Registers a new block provided a unique name and an object defining its
  * behavior. Once registered, the block is made editor as an option to any

@@ -6,26 +6,23 @@ import classnames from 'classnames';
 /**
  * WordPress dependencies
  */
-import { __ } from '@wordpress/i18n';
-import {
-	Component,
-	Fragment,
-} from '@wordpress/element';
-import { compose } from '@wordpress/compose';
-import {
+
+const { __ } = wp.i18n; // Import __() from wp.i18n
+const { Component, Fragment } = wp.element;
+const { compose } = wp.compose;
+const {
 	Dashicon,
 	IconButton,
 	withFallbackStyles,
-} from '@wordpress/components';
-import {
-	//URLInput,
+} = wp.components;
+const {
 	PlainText,
 	RichText,
 	ContrastChecker,
 	InspectorControls,
 	withColors,
 	PanelColorSettings,
-} from '@wordpress/editor';
+} = wp.editor;
 
 const { getComputedStyle } = window;
 
