@@ -74,7 +74,7 @@ class ButtonEdit extends Component {
 
 		return (
 			<Fragment>
-				<div className={ className, classnames( 'eig_call' ) } title={ title } ref={ this.bindRef }>
+				<div className={ className } title={ title } ref={ this.bindRef }>
 					<PlainText
 						value={ url }
 						placeholder={ __( 'Enter phone number' ) }

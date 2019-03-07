@@ -4,15 +4,22 @@
  * CSS for both Frontend+Backend.
  */
 
-.wp-block-cnb-call-button-block {
-  	color: $black;
+.wp-block-eig-cnb-call-now-button {
+
+  	color: $white;
   	margin: 20px auto;
   	max-width: 740px;
-  	padding: 2rem;
-}
-.wp-block-cnb-call-button-block.aligncenter {
-    text-align: center;
-}
-.wp-block-cnb-call-button-block.alignright {
-    text-align: right;
+
+	&.aligncenter {
+	
+	    text-align: center;
+	
+	}
+
+	&.alignright {
+
+	    text-align: right;
+	
+	}
+
 }

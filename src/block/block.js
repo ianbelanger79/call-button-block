@@ -80,15 +80,15 @@ const colorsMigration = ( attributes ) => {
  * @return {?WPBlock}          The block, if it has been successfully
  *                             registered; otherwise `undefined`.
  */
-registerBlockType( 'cnb/call-button-block', {
+registerBlockType( 'eig-cnb/call-now-button', {
 
-	title: __( 'Call Button' ),
+	title: __( 'Call Now Button' ),
 	description: __( 'Prompt visitors to take action with a Call Now Button.' ),
 	icon: 'phone',
 	category: 'common',
 	keywords: [
 		__( 'Call Now Button' ),
-		__( 'call-button-block' ),
+		__( 'call-now-button' ),
 	],
 	attributes: blockAttributes,
 	supports: {
