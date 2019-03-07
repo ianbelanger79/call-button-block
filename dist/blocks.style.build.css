@@ -9,14 +9,11 @@
  *
  * CSS for both Frontend+Backend.
  */
-.wp-block-cnb-call-button-block {
-  color: black;
+.wp-block-eig-cnb-call-now-button {
+  color: #ffffff;
   margin: 20px auto;
-  max-width: 740px;
-  padding: 2rem; }
-
-.wp-block-cnb-call-button-block.aligncenter {
-  text-align: center; }
-
-.wp-block-cnb-call-button-block.alignright {
-  text-align: right; }
+  max-width: 740px; }
+  .wp-block-eig-cnb-call-now-button.aligncenter {
+    text-align: center; }
+  .wp-block-eig-cnb-call-now-button.alignright {
+    text-align: right; }

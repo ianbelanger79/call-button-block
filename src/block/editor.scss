@@ -5,8 +5,44 @@
  * which makes it higher in priority.
  */
 
-.wp-block-cnb-call-button-block {
-  	color: $black;
- 	margin: 0 auto;
-  	max-width: 740px;
+// Button Styles
+.block-editor {
+	
+	.editor-block-preview__content {
+
+		.wp-block-eig-cnb-call-now-button {
+  			
+ 			margin: 0 auto;
+  			padding: 0;
+
+			.editor-plain-text {
+
+    			display: none;
+    		
+    		}
+
+    		.wp-block-button__link.eig_call_button {
+
+			    padding: 8px 14px;
+
+			}
+
+    	}
+
+    }
+
+	.wp-block-eig-cnb-call-now-button {
+			
+			margin: 0 auto;
+			padding: 0;
+
+		.editor-plain-text {
+
+  			color: $black;
+  			padding: 2px 10px;
+		
+		}
+
+	}
+
 }
