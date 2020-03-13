@@ -4,22 +4,34 @@
  * CSS for both Frontend+Backend.
  */
 
-.wp-block-eig-cnb-call-now-button {
+.entry {
 
-  	color: $white;
-  	margin: 20px auto;
-  	max-width: 740px;
+	.entry-content {
 
-	&.aligncenter {
-	
-	    text-align: center;
-	
+		.wp-block-eig-cnb-call-now-button {
+
+		  	color: $white;
+		  	margin: 20px auto;
+		  	max-width: 740px;
+
+			&.aligncenter {
+			
+			    text-align: center;
+			
+			}
+
+			&.alignright {
+
+			    text-align: right;
+			
+			}
+
+			a.eig_call_button {
+
+				text-decoration: none;
+
+			}
+
+		}
 	}
-
-	&.alignright {
-
-	    text-align: right;
-	
-	}
-
 }
